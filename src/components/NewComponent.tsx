@@ -1,55 +1,32 @@
-type StudentType = {
-  id: number;
-  name: string;
-  age: number;
-};
+import React from "react";
+import { BanknotsType, FilterType } from "../App";
 
 type NewComponentType = {
-  students: StudentType[];
+  money: BanknotsType[];
+  callBack: (name: FilterType) => void;
 };
 
 export const NewComponent = (props: NewComponentType) => {
-  const topCars = [
-    { manufacturer: "BMW", model: "m5cs" },
-    { manufacturer: "Mercedes", model: "e63s" },
-    { manufacturer: "Audi", model: "rs6" },
-  ];
+  const onClickHandler = (name: FilterType) => {
+    props.callBack(name);
+  };
 
   return (
-    <table>
-      <tr>
-        <th>manufacturer</th>
-        <th>model</th>
-      </tr>
-      {topCars.map((c, index) => (
-        <tr key={index}>
-          <td>{c.manufacturer}</td>
-          <td>{c.model}</td>
-        </tr>
-      ))}
-    </table>
+    <>
+      <ul>
+        {props.money.map((b, index) => {
+          return (
+            <li key={index}>
+              <span>{b.banknots} - </span>
+              <span>{b.nominal} - </span>
+              <span>{b.number}</span>
+            </li>
+          );
+        })}
+      </ul>
+      <button onClick={() => onClickHandler("all")}>ALL</button>
+      <button onClick={() => onClickHandler("rubls")}>RUB</button>
+      <button onClick={() => onClickHandler("dollars")}>USD</button>
+    </>
   );
 };
-
-
-// type StudentType = {
-//   id: number;
-//   name: string;
-//   age: number;
-// };
-//
-// type NewComponentType = {
-//   students: StudentType[];
-// };
-//
-// export const NewComponent = (props: NewComponentType) => {
-//   return (
-//     <ul>
-//       {props.students.map((s) => (
-//         <li key={s.id}>
-//           name: <b>{s.name}</b> / age: <b>{s.age}</b>
-//         </li>
-//       ))}
-//     </ul>
-//   );
-// };

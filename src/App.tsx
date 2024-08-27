@@ -1,19 +1,40 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { NewComponent } from "./components/NewComponent";
 
+export type BanknotsType = {
+  banknots: string;
+  nominal: number;
+  number: string;
+};
+
+export type FilterType = "all" | "rubls" | "dollars";
+
 export function App() {
-  const [students, setStudents] = useState([
-    { id: 1, name: "James", age: 8 },
-    { id: 2, name: "Robert", age: 18 },
-    { id: 3, name: "John", age: 28 },
-    { id: 4, name: "Michael", age: 38 },
-    { id: 5, name: "William", age: 48 },
-    { id: 6, name: "David", age: 58 },
-    { id: 7, name: "Richard", age: 68 },
-    { id: 8, name: "Joseph", age: 78 },
-    { id: 9, name: "Thomas", age: 88 },
-    { id: 10, name: "Charles", age: 98 },
-    { id: 11, name: "Christopher", age: 108 },
+  const [money, setMoney] = useState<BanknotsType[]>([
+    { banknots: "Dollars", nominal: 100, number: " a1234567890" },
+    { banknots: "Dollars", nominal: 50, number: " z1234567890" },
+    { banknots: "RUBLS", nominal: 100, number: " w1234567890" },
+    { banknots: "Dollars", nominal: 100, number: " e1234567890" },
+    { banknots: "Dollars", nominal: 50, number: " c1234567890" },
+    { banknots: "RUBLS", nominal: 100, number: " r1234567890" },
+    { banknots: "Dollars", nominal: 50, number: " x1234567890" },
+    { banknots: "RUBLS", nominal: 50, number: " v1234567890" },
   ]);
-  return <NewComponent students={students} />;
+
+  const [filter, setFilter] = useState<FilterType>("all");
+
+  let currentMoney = money;
+
+  if (filter === "rubls") {
+    currentMoney = money.filter((b) => b.banknots === "RUBLS");
+  }
+  if (filter === "dollars") {
+    currentMoney = money.filter((b) => b.banknots === "Dollars");
+  }
+
+  const onClickHandler = (name: FilterType) => {
+    setFilter(name);
+  };
+
+  return <NewComponent money={currentMoney} callBack={onClickHandler} />;
 }
